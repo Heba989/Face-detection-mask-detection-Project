@@ -4,19 +4,21 @@ import cv2
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
-
+#define path for dataset, traindata, test data, valid data were saved seperatly in different files
 Wfiles= os.listdir("Final Project\Face Mask Dataset\Test\WithMask")
 WOfiles= os.listdir("Final Project\Face Mask Dataset\Test\WithoutMask")
 trwfiles =os.listdir("Final Project\Face Mask Dataset\Train\WithMask")
 trwofiles=os.listdir("Final Project\Face Mask Dataset\Train\WithoutMask")
 valwfiles=os.listdir("Final Project\Face Mask Dataset\Validation\WithMask")
 valwofiles=os.listdir("Final Project\Face Mask Dataset\Validation\WithoutMask")
+#define empty list for saving labels and images 
 testimg =[]
 testlabels=[]
 
 
 # x=cv2.imread(f"Final Project\Face Mask Dataset\Test\WithMask\{Wfiles[0]}", 0)
 # print(x, x.shape)
+#forloop read test data file 
 for file in Wfiles:
     x= cv2.imread(f"Final Project\Face Mask Dataset\Test\WithMask\{file}",0)
     testlabels.append('with')
@@ -27,6 +29,7 @@ for file in WOfiles:
      testlabels.append('without')
      x=cv2.resize(x, (64,64))
      testimg.append(x)
+#forloop read train data file
 trainimg =[]
 trainlabels=[]
 for file in trwfiles:
@@ -39,8 +42,10 @@ for file in trwofiles:
      trainlabels.append('without')
      tr=cv2.resize(tr, (64,64))
      trainimg.append(tr)
+    
 valimg=[]
 vallabels=[]
+#forloop read validation data file
 for file in valwfiles:
     val= cv2.imread(f"Final Project\Face Mask Dataset\Validation\WithMask\{file}",0)
     vallabels.append('with')
@@ -51,7 +56,7 @@ for file in valwofiles:
      vallabels.append('without')
      val=cv2.resize(val, (64,64))
      valimg.append(val)
-
+#---------------------------------------------------------
 #normalizing :
 trainim = (np.array(trainimg)/ 255)
 testimg=(np.array(testimg)/255)
@@ -66,6 +71,7 @@ test_labels= le.fit_transform (testlabels)
 tr_labels= np_utils.to_categorical(tr_labels,2)
 val_labels=np_utils.to_categorical(val_labels,2)
 test_labels= np_utils.to_categorical(test_labels,2)
+#---------------------------------------------------
 #saving data
 np.save('training.npy', trainim)
 np.save('training_label.npy', tr_labels) 
