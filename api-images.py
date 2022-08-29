@@ -118,8 +118,8 @@ def get_image():
 
 
 #Second API for make report and reteive history 
-app2 = Flask(__name__)
-@app2.route("/retrieve", methods= ['get','post'])
+app = Flask(__name__)
+@app.route("/retrieve", methods= ['get','post'])
 def mk_rp():
     #connect to SQlite3
     conn = sqlite3.connect("Mask.db")
