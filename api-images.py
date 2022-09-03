@@ -118,7 +118,7 @@ def get_image():
 
 
 #Second API for make report and reteive history 
-app = Flask(__name__)
+#app = Flask(__name__)
 @app.route("/retrieve", methods= ['get','post'])
 def mk_rp():
     #connect to SQlite3
