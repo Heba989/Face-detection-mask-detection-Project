@@ -15,8 +15,6 @@ from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.optimizers import SGD, Adam, Nadam 
 from tensorflow.keras.layers import Activation, Dense, Flatten, Conv2D, MaxPooling2D
 from sklearn.metrics import classification_report, confusion_matrix,precision_score, recall_score, f1_score
-#Flickr-Faces-HQ Dataset (FFHQ)-data set 
-#https://github.com/NVlabs/ffhq-dataset
 
 #face detection model 
 
