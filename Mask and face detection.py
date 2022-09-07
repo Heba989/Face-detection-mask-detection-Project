@@ -19,16 +19,20 @@ from sklearn.metrics import classification_report, confusion_matrix,precision_sc
 #face detection model 
 
 #mask detection model
+#1) loading save numpy array of images
+#training image 
 x= load('training.npy')
 y=load('training_label.npy')
+#validating image
 x_val =load('val.npy')
 y_val=load('val_label.npy')
+#test images
 x_test=load('tesy.npy')
 y_test = load('test_label.npy')
-print(y_test[2], y_test[-2])
+#print(y_test[2], y_test[-2])
 # dropouts = [0.1, 0.2, 0.3, 0.4]
 # for i in dropouts:
-        
+#mask model         
 model = Sequential()
 model.add(Conv2D(64, (5,5),input_shape = (64,64,1),
                 activation = "relu", padding = "same"))
@@ -38,9 +42,6 @@ model.add(Dropout(0.1))
 model.add(Conv2D(128,(3,3), activation = "relu", padding = "same"))
 model.add(MaxPooling2D(2))
 model.add(Dropout(0.1))
-# model.add(Conv2D(512, (3,3), activation="relu", padding="same"))
-# model.add(MaxPooling2D(2))
-# model.add(Dropout(0.1))
 
 model.add(Flatten())
 model.add(Dense(512, activation = "relu"))
@@ -48,46 +49,50 @@ model.add(Dense(128, activation='relu',kernel_initializer ="he_uniform"))
 model.add(Dense(2, activation='sigmoid', kernel_initializer ="he_uniform"))
 
 model.summary()
-
+#model compiling 
 model.compile(loss = "binary_crossentropy", 
             optimizer=("Adam"),
             metrics = ["accuracy"])
-
+#model fit
 clf = model.fit(x,y,validation_data = (x_val, y_val), batch_size = 64, epochs = 15)
+#model saved 
+# model.save('mask.h5')
+#--------------------------------------------------
+# #test prediction an image 
+# imgtest1= cv2.imread('testwith.jpg',0)
+# # imgtest2=cv2.imread('tst2with.jpg',0)
+# imgtest1=cv2.resize(imgtest1,(64,64))
+# # imgtest2=cv2.resize(imgtest2,(64,64))
+# img1=(np.array(imgtest1)/ 255)
+# # img2=(np.array(imgtest2)/ 255)
 
-#test image 
-imgtest1= cv2.imread('testwith.jpg',0)
-# imgtest2=cv2.imread('tst2with.jpg',0)
-imgtest1=cv2.resize(imgtest1,(64,64))
-# imgtest2=cv2.resize(imgtest2,(64,64))
-img1=(np.array(imgtest1)/ 255)
-# img2=(np.array(imgtest2)/ 255)
-
-prediction= model.predict(img1)
-predict_class=np.argmax(prediction,axis = 1)
-print(predict_class)
-
+# prediction= model.predict(img1)
+# predict_class=np.argmax(prediction,axis = 1)
+# print(predict_class)
+#----------------------------------------
+#this part for plotting loss and accuracy of moedel sue to epoch numbers
 
 # plt.subplot(1,2,1)
 # plt.plot(clf.history['loss'],'-g', label="Training")
 # plt.plot(clf.history['val_loss'],'-y', label="Val")
-# plt.ylabel(f"Loss {dropouts}")
+# plt.ylabel(f"Loss")
 # plt.subplot(1,2,2)
 # plt.plot(clf.history['accuracy'],'-g', label="Training")
 # plt.plot(clf.history['val_accuracy'],'-y', label="Val")
-# plt.ylabel(f"Accuracy {dropouts}")
+# plt.ylabel(f"Accuracy")
 # plt.legend()
 # plt.show()
-
+#-----------------------------------------------
+#model evalution 
 # loss, accuracy = model.evaluate(x,y,verbose=2)
 # print(loss, accuracy)
 # lossval, accuracyval= model.evaluate(x_val, y_val,verbose=2)
 # print(lossval, accuracyval)
 # losstest, accuracytest=model.evaluate(x_test,y_test, verbose=2)
 # print(losstest, accuracytest)
-#sub plot:
 
-# model.save('mask.h5')
+
+#review metrics (accuracy, recall, presision, f1score)
 
 # prediction= model.predict(x_test)
 # predict_class=np.argmax(prediction,axis = 1) 
